@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+.text-stroke-white {
+  -webkit-text-stroke: 2px green;
+    color: rgb(253, 255, 253);}
+
+.my-centered-element {
+  margin: 0 auto;
+}
+
+.shadow {
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.24);
+}
+
+.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
