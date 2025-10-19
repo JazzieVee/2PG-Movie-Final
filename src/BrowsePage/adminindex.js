@@ -10,12 +10,12 @@ import Movie from './Movie.jsx';
 
 ReactDOM.createRoot(document.getElementById('admin-root')).render(
     <React.StrictMode>
-        <Router basename='admin'>         
+        <Router basename='admin'>   
+           <Browse >      
             <Routes>
-                <Browse >
-                <Route path="/browse" element={<Movie/>} />
-                </Browse>
-            </Routes>       
+                <Route path="/browse" element={<Movie/>} />                
+            </Routes>   
+            </Browse>    
         </Router>
     </React.StrictMode>
  
