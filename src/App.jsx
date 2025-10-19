@@ -7,13 +7,10 @@ function App() {
 
   return (
       <>
-       <div className="bg-gradient-to-br from-green-800 to-amber-700 h-78">
+       <div className="bg-gradient-to-br from-green-800 to-amber-700 h-70">
           <Landing />
         </div>
-
-       
       </>
-
   );
 }
 
