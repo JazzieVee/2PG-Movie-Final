@@ -88,8 +88,8 @@ const Browse = () => {
                     <img className='w-[120px] h-[180px] rounded-xl border bg-gray-600' />
                 </div>)
             ) : (  
-                    filteredMovies.map(movie => (
-                        <Link key={movie.imdbID} to={`/movie/${movie.imdbID}`}>
+                    filteredMovies.map((movie, index) => (
+                        <Link key={index} to={`/movie/${movie.imdbID}`}>
                             <div className='w-[100px] h-[80px]'>
                                 <h3 className='text-sm h-15 overflow-clip font-bold font-serif'>{movie.Title}</h3>
                                 <h3 className='font-bold text-sm'>{movie.Year}</h3>
