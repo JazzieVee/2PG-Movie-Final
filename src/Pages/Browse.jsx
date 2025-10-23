@@ -6,19 +6,19 @@ import { Link, useLocation } from 'react-router-dom';
 const Browse = () => {
     const location = useLocation();
     const movies = location.state?.movies || [];
+    const initialSearchTerm = location.state?.searchTerm || "";
 
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filteredMovies, setFilteredMovies] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+    const [filteredMovies, setFilteredMovies] = useState(movies);
     const [sortOption, setSortOption] = useState(''); 
     const [loading, setLoading] = useState(true)
 
-
+    
     useEffect(() => {
         setLoading(true);
         let results = movies.filter(movie => 
             movie.Title.toLowerCase().includes(searchTerm.toLowerCase())
         );
-
 
         if (sortOption === 'A_to_Z') {
             results.sort((a, b) => a.Title.localeCompare(b.Title));
@@ -26,11 +26,12 @@ const Browse = () => {
             results.sort((a, b) => b.Title.localeCompare(a.Title));
         } else if (sortOption === 'Year') {
             results.sort((a, b) => b.Year - a.Year); 
-        }
+        }    
 
-    setFilteredMovies(results.slice(0,6));
-    setLoading(false);   
-    },[searchTerm, sortOption, movies]);
+
+        setFilteredMovies(results.slice(0,6));
+        setLoading(false);   
+        },[searchTerm, sortOption, movies]);
 
 
   return (
@@ -41,7 +42,7 @@ const Browse = () => {
             </figure>
             <div className='p-10 mx-16'>
                 <Link to="/">
-                <b className='mr-8 cursor-pointer text-white font-serif'>Find your movie</b>
+                <b className='mr-8 cursor-pointer text-white font-serif'>HOME</b>
                 </Link>
                 <button className='bg-green-800 text-[24px] font-bold px-6 py-1.5 rounded-3xl'>Contact us</button>
                </div>
@@ -56,13 +57,7 @@ const Browse = () => {
                 type="text"
                 placeholder="Search for a movie"
                 value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                onKeyDown={(event) => {
-                    if(event.key === 'Enter') {
-                     handleSearch();
-                    }
-                }}
-            
+                onChange={(event) => setSearchTerm(event.target.value)}            
                  />
                 <button onClick={() => setSearchTerm(searchTerm)}
                 className='relative left-44 bg-transparent border-none cursor-pointer'>                       
