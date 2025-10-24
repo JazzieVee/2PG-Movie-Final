@@ -24,25 +24,25 @@ const MovieDetail = ({ results }) => {
         fetchMovie();
     }, [id]);
 
-    if (!movie) return <div>Loading movie details...</div>;
+    if (!movie) return <div className='my-centered-element text-center text-3xl font-serif'>Loading movie details...</div>;
 
 
   return (
     <div className='py-10'>
         <Link to={"/movies"}>
          <button 
-         className='ml-90 w-25 border rounded-lg mb-4 p-2 justify-center text-xl font-semibold'> 
+         className='ml-82 w-25 border rounded-lg mb-4 p-2 justify-center text-xl font-semibold'> 
          ← Back </button>
          </Link>
-        <div className='flex  justify-center my-centered-element'>
-            <img className=' w-[300px] h-[400px] rounded-xl shadow' src={movie.Poster}/>
+        <div className='flex justify-center my-centered-element'>
+            <img className=' w-[380px] h-[520px] rounded-xl shadow' src={movie.Poster}/>
             <div className='ml-20'>
-            <h1 className='text-2xl font-bold '>{movie.Title}</h1>
+            <h1 className='text-4xl font-bold text-wrap w-106'>{movie.Title}</h1>
             <p className='text-lg'>{movie.Year}</p>
-            <p className='text-sm'>{movie.Rated}</p>
-            <p className='mb-10 text-sm'>{movie.Runtime}</p>
-            <b className='font-bold'>Plot:</b>
-            <p className='w-100 text-lg'>{movie.Plot}</p>
+            <p className='text-md'>{movie.Rated}</p>
+            <p className='mb-10 text-md'>{movie.Runtime}</p>
+            <b className='font-bold text-lg'>Plot:</b>
+            <p className='w-100 text-xl'>{movie.Plot}</p>
             </div>
         </div>
     </div>

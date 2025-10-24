@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import movieLogo from "../assets/movie warehouse.png";
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
+
 
 const Browse = () => {
     const location = useLocation();
@@ -11,14 +13,32 @@ const Browse = () => {
     const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
     const [filteredMovies, setFilteredMovies] = useState(movies);
     const [sortOption, setSortOption] = useState(''); 
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false);
+    const [isSpinning, setIsSpinning] = useState(false);
 
-    
     useEffect(() => {
+    const fetchMovies = async() => {
+        if (!searchTerm) return;
+        const apiKey = '5c7ce648';
         setLoading(true);
-        let results = movies.filter(movie => 
-            movie.Title.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        setIsSpinning(true);
+        try{
+         const response = await axios.get(`https://www.omdbapi.com/?s=${searchTerm}&apikey=${apiKey}`);
+         setFilteredMovies(response.data.Search.slice(0,6) || []);
+        } catch(error) {
+            console.error('Error fetching movies:', error);
+        } finally {          
+            setLoading(false);
+            setIsSpinning(false);
+      }
+    };
+
+    fetchMovies();
+    },[searchTerm]);
+    
+        
+    useEffect(() => { 
+        let results = [...filteredMovies];
 
         if (sortOption === 'A_to_Z') {
             results.sort((a, b) => a.Title.localeCompare(b.Title));
@@ -26,42 +46,45 @@ const Browse = () => {
             results.sort((a, b) => b.Title.localeCompare(a.Title));
         } else if (sortOption === 'Year') {
             results.sort((a, b) => b.Year - a.Year); 
-        }    
+        } 
 
+    setFilteredMovies(results);    
+    },[sortOption]);
 
-        setFilteredMovies(results.slice(0,6));
-        setLoading(false);   
-        },[searchTerm, sortOption, movies]);
+    const handleChange = (event) => {
+            setSearchTerm(event.target.value);
+            setIsSpinning(true);
+        };
 
 
   return (
     <>
         <div className=" flex justify-between my-centered-element h-30 pt-4 max-w-[1300px]">
             <figure className="w-60 p-2">
-                <img src={movieLogo} alt="" className="w-30 rounded-full shadow mx-20 mt-5" />
+                <img src={movieLogo} alt="" className="w-30 rounded-full shadow mx-20 mt-5 glow-shadow" />
             </figure>
             <div className='p-10 mx-16'>
                 <Link to="/">
-                <b className='mr-8 cursor-pointer text-white font-serif'>HOME</b>
+                <b className='mr-8 cursor-pointer text-xl text-white underline white-shadow font-serif'>HOME</b>
                 </Link>
-                <button className='bg-green-800 text-[24px] font-bold px-6 py-1.5 rounded-3xl'>Contact us</button>
+                <button className='bg-green-700 text-[24px] glow-shadow cursor-not-allowed font-bold px-6 py-1.5 rounded-3xl'>Contact us</button>
                </div>
         </div>
         <div>
-            <div className="text-[52px] mb-8 font-bold text-center text-shadow font-serif text-stroke-white">
-                Browse our movies
+            <div className="text-[52px] mb-8 font-bold text-center white-shadow font-serif text-stroke-white">
+                Browse our Library
             </div>
             <div className=" flex items-center justify-center">
                 <input 
-                className="pr-50 bg-white absolute border p-3 border-green-700 rounded-3xl text-lg shadow" 
+                className="pr-50 bg-white absolute border p-3 border-green-700 rounded-3xl text-lg glow-shadow" 
                 type="text"
                 placeholder="Search for a movie"
                 value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}            
+                onChange={handleChange}    
                  />
-                <button onClick={() => setSearchTerm(searchTerm)}
+                <button
                 className='relative left-44 bg-transparent border-none cursor-pointer'>                       
-                <FaMagnifyingGlass />                       
+            <FaMagnifyingGlass className={`transition-transform duration-200 ${isSpinning ? 'animate-spin' : ''}`} />
                 </button>                        
             </div>
         </div>
@@ -79,25 +102,28 @@ const Browse = () => {
             </div>
             <div className='my-centered-element'>
             <div id="movie__results"className='my-centered-element justify-between max-w-[900px] flex' >
-            {loading ? 
+            {loading ? (
             new Array(6).fill(0).map((__, index) => (  
-                 <div className='w-[100px] h-[80px]' 
+                 <div className='w-[120px] h-[80px]' 
                   key={index} id='skeleton_loading_state'>
-                    <h3 className='border bg-gray-600'></h3>
-                    <h3 className='border bg-gray-600'></h3>
-                    <img className='w-[120px] h-[180px] rounded-xl border bg-gray-600' />
-                </div>)
+                    <h3 className='bg-gray-300 rounded-xl h-10 mb-1'></h3>
+                    <h3 className='bg-gray-300 rounded-xl h-6 mb-1'></h3>
+                    <img className='w-[120px] h-[180px] rounded-xl bg-gray-300' />
+                </div>))
             ) : (  
+                filteredMovies.length > 0 ? (
                     filteredMovies.map((movie, index) => (
                         <Link key={index} to={`/movie/${movie.imdbID}`}>
-                            <div className='w-[100px] h-[80px]'>
-                                <h3 className='text-sm h-15 overflow-clip font-bold font-serif'>{movie.Title}</h3>
-                                <h3 className='font-bold text-sm'>{movie.Year}</h3>
+                            <div className='w-[120px] h-[80px]'>
+                                <h3 className='text-sm h-10 overflow-clip font-bold font-serif'>{movie.Title}</h3>
+                                <h3 className='font-bold h-6 text-sm'>{movie.Year}</h3>
                                 <img className='w-[120px] h-[180px] rounded-xl shadow' src={movie.Poster}/>
                             </div>
                         </Link>
                     ))
-                
+                ) : (
+                    <p className='my-centered-element font-serif text-center text-2xl'>No movies found. Please try a different search...</p>
+                )
                 )}
             </div>            
         </div> 
