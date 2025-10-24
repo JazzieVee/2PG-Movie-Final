@@ -30,19 +30,19 @@ const MovieDetail = ({ results }) => {
   return (
     <div className='py-10'>
         <Link to={"/movies"}>
-         <button 
+         <button id='back__btn' 
          className='ml-82 w-25 border rounded-lg mb-4 p-2 justify-center text-xl font-semibold'> 
          ← Back </button>
          </Link>
-        <div className='flex justify-center my-centered-element'>
-            <img className=' w-[380px] h-[520px] rounded-xl shadow' src={movie.Poster}/>
+        <div id='movie__detail--container' className='flex justify-center my-centered-element'>
+            <img id='movie__detail--img' className=' w-[380px] h-[520px] rounded-xl shadow' src={movie.Poster}/>
             <div className='ml-20'>
-            <h1 className='text-4xl font-bold text-wrap w-106'>{movie.Title}</h1>
+            <h1 id='movie__detail--title' className='text-4xl font-bold text-wrap w-106'>{movie.Title}</h1>
             <p className='text-lg'>{movie.Year}</p>
             <p className='text-md'>{movie.Rated}</p>
             <p className='mb-10 text-md'>{movie.Runtime}</p>
             <b className='font-bold text-lg'>Plot:</b>
-            <p className='w-100 text-xl'>{movie.Plot}</p>
+            <p id='movie__detail--plot' className='w-100 text-xl'>{movie.Plot}</p>
             </div>
         </div>
     </div>

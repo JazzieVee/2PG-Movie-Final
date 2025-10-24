@@ -59,36 +59,36 @@ const Browse = () => {
 
   return (
     <>
-        <div className=" flex justify-between my-centered-element h-30 pt-4 max-w-[1300px]">
-            <figure className="w-60 p-2">
-                <img src={movieLogo} alt="" className="w-30 rounded-full shadow mx-20 mt-5 glow-shadow" />
+        <div  className=" flex justify-between my-centered-element h-30 pt-4 max-w-[1300px]">
+            <figure  className="w-60 p-2">
+                <img id='page__logo' src={movieLogo} alt="" className="w-30 rounded-full shadow mx-20 mt-5 glow-shadow" />
             </figure>
-            <div className='p-10 mx-16'>
+            <div id='nav__btn' className='p-10 mx-16'>
                 <Link to="/">
                 <b className='mr-8 cursor-pointer text-xl text-white underline white-shadow font-serif'>HOME</b>
                 </Link>
-                <button className='bg-green-700 text-[24px] glow-shadow cursor-not-allowed font-bold px-6 py-1.5 rounded-3xl'>Contact us</button>
+                <button id='contact__btn' className='bg-green-700 text-[24px] glow-shadow cursor-not-allowed font-bold px-6 py-1.5 rounded-3xl'>Contact us</button>
                </div>
         </div>
         <div>
-            <div className="text-[52px] mb-8 font-bold text-center white-shadow font-serif text-stroke-white">
+            <div id='browse_title' className="text-[52px] mb-8 font-bold text-center white-shadow font-serif text-stroke-white">
                 Browse our Library
             </div>
             <div className=" flex items-center justify-center">
-                <input 
+                <input id='browse__input'
                 className="pr-50 bg-white absolute border p-3 border-green-700 rounded-3xl text-lg glow-shadow" 
                 type="text"
                 placeholder="Search for a movie"
                 value={searchTerm}
                 onChange={handleChange}    
                  />
-                <button
+                <button id='browse__btn'
                 className='relative left-44 bg-transparent border-none cursor-pointer'>                       
             <FaMagnifyingGlass className={`transition-transform duration-200 ${isSpinning ? 'animate-spin' : ''}`} />
                 </button>                        
             </div>
         </div>
-        <div className='flex justify-between h-60 py-26 my-centered-element max-w-[800px]'>
+        <div id='search_line' className='flex justify-between h-60 py-26 my-centered-element max-w-[800px]'>
             <div>
                 <p className='flex justify-around font-serif text-xl w-70'>Search results for <span className='text-green-800'> "{searchTerm}"</span></p>
             </div>
@@ -100,8 +100,8 @@ const Browse = () => {
               <option value="Year">Year</option>
             </select>
             </div>
-            <div className='my-centered-element'>
-            <div id="movie__results"className='my-centered-element justify-between max-w-[900px] flex' >
+            <div id="movie__container" className='my-centered-element'>
+            <div id='movie__results' className='my-centered-element justify-between max-w-[900px] flex' >
             {loading ? (
             new Array(6).fill(0).map((__, index) => (  
                  <div className='w-[120px] h-[80px]' 
